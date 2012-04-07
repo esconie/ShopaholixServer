@@ -1,5 +1,7 @@
 package data;
 
-public class Family {
+import java.util.List;
 
+public class Family {
+	List<User> users;
 }
