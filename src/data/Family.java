@@ -3,8 +3,8 @@ package data;
 import java.util.HashSet;
 
 public class Family {
-	HashSet<User> users = new HashSet<User>();
-	Integer id;
+	public Integer id;
+	public HashSet<User> users = new HashSet<User>();
 	
 	public Family(Integer i) {
 		id = i;
@@ -14,4 +14,5 @@ public class Family {
 	public String toString() {
 		return id.toString();
 	}
+	
 }

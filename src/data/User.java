@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class User {
-	List<Update> updates = new LinkedList<Update>();
-	HashSet<Family> families = new HashSet<Family>();
-	Integer id;
+	public HashSet<Family> families = new HashSet<Family>();
+	public List<Update> updates = new LinkedList<Update>();
+	public Integer id;
 	
 	public User(Integer id) {
 		this.id = id;
