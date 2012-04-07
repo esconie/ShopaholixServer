@@ -1,15 +1,15 @@
 package data;
 
-import java.sql.Time;
+import java.util.Date;
 
-import data.ItemRatings.Rating;
+import data.Rating;
 
 public class RatingUpdate extends Update {
-	Item item;
+	String item;
 	Rating rating;
 	User user;
 	
-	public RatingUpdate(Item i, Rating r, Time t, User u) {
+	public RatingUpdate(String i, Rating r, Date t, User u) {
 		item = i;
 		rating = r;
 		time = t;
@@ -18,6 +18,6 @@ public class RatingUpdate extends Update {
 	
 	@Override
 	public String toString() {
-		return "RATING_UPDATE "+item.toString()+" "+user.toString()+" "+rating.toString();
+		return "RATING_UPDATE "+item+" "+user.toString()+" "+rating.toString();
 	}
 }

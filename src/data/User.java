@@ -39,9 +39,7 @@ public class User {
 	public void receiveUpdate(RatingUpdate u) {
 		for (Family f: families) {
 			for (User user: f.users) {
-				if (!user.equals(this)) {
-					user.addUpdate(u);
-				}
+				user.addUpdate(u);
 			}
 		}
 	}

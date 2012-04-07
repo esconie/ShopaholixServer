@@ -1,9 +1,9 @@
 package data;
 
-import java.util.List;
+import java.util.HashSet;
 
 public class Family {
-	List<User> users;
+	HashSet<User> users = new HashSet<User>();
 	Integer id;
 	
 	public Family(Integer i) {
