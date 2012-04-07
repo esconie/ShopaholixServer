@@ -9,4 +9,9 @@ public class Family {
 	public Family(Integer i) {
 		id = i;
 	}
+	
+	@Override
+	public String toString() {
+		return id.toString();
+	}
 }

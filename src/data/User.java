@@ -62,4 +62,9 @@ public class User {
 			user.addUpdate(u);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return id.toString();
+	}
 }
