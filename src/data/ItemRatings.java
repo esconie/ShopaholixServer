@@ -5,6 +5,7 @@ import java.util.HashMap;
 import data.ItemRatings.Rating;
 
 
+@SuppressWarnings("serial")
 public class ItemRatings extends HashMap<User,Rating> {
 	public enum Rating {
 		UNRATED, BAD, NEUTRAL, GOOD
