@@ -1,13 +1,13 @@
 package data;
 
-import java.sql.Time;
+import java.util.Date;
 
 public class MemberUpdate extends Update {
 	Family family;
 	User user;
 	boolean add;
 	
-	public MemberUpdate(Family f, User u, boolean a, Time t) {
+	public MemberUpdate(Family f, User u, boolean a, Date t) {
 		family = f;
 		user = u;
 		add = a;
