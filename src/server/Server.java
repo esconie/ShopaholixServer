@@ -15,7 +15,7 @@ import data.Update;
 import data.User;
  
 public class Server {
-        private final static int PORT = 789;
+        private final static int PORT = 444;
         private final static int MAXUSERID = 99999999;
         private ServerSocket serverSocket;
         private HashMap<Integer, User> userID;
