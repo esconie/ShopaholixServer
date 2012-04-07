@@ -2,15 +2,18 @@ package data;
 
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class User {
 	List<Update> updates = new LinkedList<Update>();
 	HashSet<Family> families = new HashSet<Family>();
+	Integer id;
+	
+	public User(Integer id) {
+		this.id = id;
+	}
 	
 	public ArrayList<Update> getFutureUpdates(Time t) {
 		ArrayList<Update> output = new ArrayList<Update>();

@@ -1,9 +1,10 @@
 package data;
 
-import java.sql.Time;
+import java.util.Date;
+
 
 public class Update {
-	Time time;
+	Date time;
 	public enum TYPE {
 		ADD_MEMBER, DELETE_MEMBER, ADD_RATING
 	}
