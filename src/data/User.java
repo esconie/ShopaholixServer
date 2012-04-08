@@ -34,12 +34,18 @@ public class User {
 				break;
 			}
 		}
+		if (updates.size()==0) {
+			updates.add(0, u);
+		}
 	}
 	
 	public void receiveUpdate(RatingUpdate u) {
+		addUpdate(u);
 		for (Family f: families) {
 			for (User user: f.users) {
-				user.addUpdate(u);
+				if (!user.equals(this)) {
+					user.addUpdate(u);
+				}
 			}
 		}
 	}
@@ -49,6 +55,7 @@ public class User {
 	 * @param u
 	 */
 	public void receiveUpdate(MemberUpdate u) {
+		addUpdate(u);
 		if (u.add) {
 			families.add(u.family);
 			u.family.users.add(this);
@@ -57,7 +64,9 @@ public class User {
 			u.family.users.remove(this);
 		}
 		for (User user: u.family.users) {
-			user.addUpdate(u);
+			if (!user.equals(this)) {
+				user.addUpdate(u);
+			}
 		}
 	}
 	
