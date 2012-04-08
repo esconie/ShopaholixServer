@@ -107,10 +107,8 @@ public class Server {
 		String id = "([1-9][0-9]{7}|[0-9])";
 		String upc = "([0-9]+)";
 		String getUpdate = "(GET_UPDATE " + id + " [0-9]+)";
-		String memberUpdate = "(MEMBER_UPDATE " + id + " " + id
-				+ " (true|false)) [0-9]+";
-		String ratingUpdate = "(RATING_UPDATE " + upc + " " + id
-				+ " (GOOD|BAD|NEUTRAL) [0-9]+)";
+		String memberUpdate = "(MEMBER_UPDATE " + id + " " + id + " (true|false)) [0-9]+";
+		String ratingUpdate = "(RATING_UPDATE " + upc + " " + id + " (GOOD|BAD|NEUTRAL) [0-9]+)";
 		String getPublic = "GET_PUBLIC " + upc;
 
 		if (input.equals("NEWUSER")) {
