@@ -18,6 +18,6 @@ public class RatingUpdate extends Update {
 	
 	@Override
 	public String toString() {
-		return "RATING_UPDATE "+item+" "+user.toString()+" "+rating.toString();
+		return "RATING_UPDATE "+item+" "+user.toString()+" "+rating.toString() + " " + time.toString();
 	}
 }
