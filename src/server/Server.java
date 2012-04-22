@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.omg.CORBA.Environment;
-
 import data.Family;
 import data.MemberUpdate;
 import data.Rating;
