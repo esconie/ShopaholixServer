@@ -1,11 +1,21 @@
 package server;
 
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.io.*;
+
+import org.omg.CORBA.Environment;
 
 import data.Family;
 import data.MemberUpdate;
@@ -98,6 +108,8 @@ public class Server {
 		 * 
 		 * Input: "GET_PUBLIC upc" -> might return null
 		 * 
+		 * Input: "SEND_LOG log" -> return nothing.
+		 * 
 		 * Update String Representation:
 		 * 
 		 * MemberUpdate: "MEMBER_UPDATE familyID userID boolean timestamp" -> true means add to family, false means remove 
@@ -110,6 +122,7 @@ public class Server {
 		String memberUpdate = "(MEMBER_UPDATE " + id + " " + id + " (true|false)) [0-9]+";
 		String ratingUpdate = "(RATING_UPDATE " + upc + " " + id + " (GOOD|BAD|NEUTRAL) [0-9]+)";
 		String getPublic = "GET_PUBLIC " + upc;
+		String sendLog = "SEND_LOG";
 
 		if (input.equals("NEWUSER")) {
 			int newID;
@@ -126,7 +139,6 @@ public class Server {
 			familyID.put(newID, new Family(newID));
 			return Integer.toString(newID) + "\n";
 		}
-
 		else if (input.matches(getUpdate)) {
 			String[] args = input.split(" ");
 			
@@ -182,6 +194,33 @@ public class Server {
 			if (publicRatings.containsKey(code))
 				return publicRatings.get(code).toString() + "\n";
 			return "UNRATED\n";
+		} else if (input.substring(0,8).equals(sendLog)){
+			String log = input.substring(8);
+			String filename = "";
+			for(int i = 0; i < log.length(); i++){
+				if(log.charAt(i) == '\n')
+					break;
+				filename += log.charAt(i);
+			}
+			File logFile = new File(filename);
+			if (!logFile.exists()) {
+				try {
+					logFile.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			try {
+				// BufferedWriter for performance, true to set append to file flag
+				BufferedWriter buf = new BufferedWriter(new FileWriter(logFile,
+						true));
+				buf.append(log);
+				buf.newLine();
+				buf.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return "\n";
 	}
