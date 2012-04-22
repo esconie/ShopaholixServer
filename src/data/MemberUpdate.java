@@ -16,6 +16,6 @@ public class MemberUpdate extends Update {
 	
 	@Override
 	public String toString() {
-		return "MEMBER_UPDATE "+family.toString()+" "+user.toString()+" "+add;
+		return "MEMBER_UPDATE "+family.toString()+" "+user.toString()+" "+add+" "+time.getTime();
 	}
 }

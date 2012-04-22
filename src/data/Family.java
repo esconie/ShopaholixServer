@@ -3,10 +3,10 @@ package data;
 import java.util.HashSet;
 
 public class Family {
-	public Integer id;
+	public String id;
 	public HashSet<User> users = new HashSet<User>();
 	
-	public Family(Integer i) {
+	public Family(String i) {
 		id = i;
 	}
 	

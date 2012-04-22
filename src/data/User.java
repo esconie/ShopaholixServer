@@ -9,9 +9,12 @@ import java.util.List;
 public class User {
 	public HashSet<Family> families = new HashSet<Family>();
 	public List<Update> updates = new LinkedList<Update>();
-	public Integer id;
+
+	public List<RatingUpdate> myUpdates = new LinkedList<RatingUpdate>();
+
+	public String id;
 	
-	public User(Integer id) {
+	public User(String id) {
 		this.id = id;
 	}
 	
@@ -48,6 +51,7 @@ public class User {
 				}
 			}
 		}
+		myUpdates.add(u);
 	}
 	
 	/**
@@ -68,6 +72,14 @@ public class User {
 				user.addUpdate(u);
 			}
 		}
+		for (User user: u.family.users) {
+			if (!user.equals(this)) {
+				for (RatingUpdate up:user.myUpdates) {
+					this.addUpdate(up.changeTime(u.time));
+				}
+			}
+		}
+		
 	}
 	
 	@Override

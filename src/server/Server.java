@@ -16,10 +16,9 @@ import data.User;
 
 public class Server {
 	private final static int PORT = 789;
-	private final static int MAXUSERID = 99999999;
 	private ServerSocket serverSocket;
-	private HashMap<Integer, User> userID;
-	private HashMap<Integer, Family> familyID;
+	private HashMap<String, User> userID;
+	private HashMap<String, Family> familyID;
 	private HashMap<String, Double> publicRatings;
 	private HashMap<String, Integer> publicCount;
 
@@ -32,8 +31,8 @@ public class Server {
 	 */
 	public Server(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
-		userID = new HashMap<Integer, User>();
-		familyID = new HashMap<Integer, Family>();
+		userID = new HashMap<String, User>();
+		familyID = new HashMap<String, Family>();
 		publicRatings = new HashMap<String, Double>();
 		publicCount = new HashMap<String, Integer>();
 	}
@@ -104,32 +103,26 @@ public class Server {
 		 * RatingUpdate: "RATING_UPDATE upc userID rating timestamp" where rating is an enum instance
 		 */
 
-		String id = "([1-9][0-9]{7}|[0-9])";
+		String id = ".+@.+";
 		String upc = "([0-9]+)";
 		String getUpdate = "(GET_UPDATE " + id + " [0-9]+)";
 		String memberUpdate = "(MEMBER_UPDATE " + id + " " + id + " (true|false)) [0-9]+";
 		String ratingUpdate = "(RATING_UPDATE " + upc + " " + id + " (GOOD|BAD|NEUTRAL) [0-9]+)";
 		String getPublic = "GET_PUBLIC " + upc;
 
-		if (input.equals("NEWUSER")) {
-			int newID;
-			do {
-				newID = (int) (Math.random() * MAXUSERID);
-			} while (userID.containsKey(newID));
+		String[] args = input.split(" ");
+		
+		if (input.matches("NEWUSER .+@.+")) {
+			String newID = args[1];
 			userID.put(newID, new User(newID));
-			return Integer.toString(newID) + "\n";
-		} else if (input.equals("NEWFAMILY")) {
-			int newID;
-			do {
-				newID = (int) (Math.random() * MAXUSERID);
-			} while (familyID.containsKey(newID));
+			return newID;
+		} else if (input.equals("NEWFAMILY "+id)) {
+			String newID = args[1];
 			familyID.put(newID, new Family(newID));
-			return Integer.toString(newID) + "\n";
+			return newID;
 		}
 
-		else if (input.matches(getUpdate)) {
-			String[] args = input.split(" ");
-			
+		else if (input.matches(getUpdate)) {			
 			String output = "";
 			int ID = Integer.parseInt(args[1]);
 			long timeStamp = Long.parseLong(args[2]);
@@ -141,13 +134,11 @@ public class Server {
 					System.out.println("update: " + u);
 					output += u.toString() + "\n";
 				}
-				
 			}
 			return output;
 		}
 
 		else if (input.matches(memberUpdate)) {
-			String[] args = input.split(" ");
 			User user = userID.get(Integer.parseInt(args[2]));
 			long timeStamp = Long.parseLong(args[4]);
 			Family family = familyID.get(Integer.parseInt(args[1]));
@@ -158,7 +149,6 @@ public class Server {
 		}
 
 		else if (input.matches(ratingUpdate)) {
-			String[] args = input.split(" ");
 			User user = userID.get(Integer.parseInt(args[2]));
 			Rating rating = Rating.valueOf(args[3]);
 			String code = args[1];
@@ -177,7 +167,6 @@ public class Server {
 			publicCount.put(code, count);
 			publicRatings.put(code, original);
 		} else if (input.matches(getPublic)) {
-			String[] args = input.split(" ");
 			String code = args[1];
 			if (publicRatings.containsKey(code))
 				return publicRatings.get(code).toString() + "\n";
