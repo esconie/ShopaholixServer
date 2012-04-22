@@ -25,7 +25,7 @@ import data.Update;
 import data.User;
 
 public class Server {
-	private final static int PORT = 789;
+	private final static int PORT = 4444;
 	private ServerSocket serverSocket;
 	private HashMap<String, User> userID;
 	private HashMap<String, Family> familyID;
@@ -80,6 +80,7 @@ public class Server {
 
 		try {
 			for (String line = in.readLine(); line != null; line = in.readLine()) {
+				System.out.println(line);
 				String output = handleRequest(line);
 				if (output != null) {
 					out.println(output);
@@ -87,7 +88,10 @@ public class Server {
 			}
 		} catch (SocketException e) {
 			System.out.println("Client disconnected");
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
 			out.close();
 			in.close();
 		}
