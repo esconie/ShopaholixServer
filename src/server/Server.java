@@ -81,6 +81,7 @@ public class Server {
 				System.out.println(line);
 				String output = handleRequest(line);
 				if (output != null) {
+					System.out.println("SENT:"+output);
 					out.println(output);
 				}
 			}
@@ -129,7 +130,9 @@ public class Server {
 		
 		if (input.matches("NEWUSER .+@.+")) {
 			String newID = args[1];
-			userID.put(newID, new User(newID));
+			if (!userID.containsKey(newID)) {
+				userID.put(newID, new User(newID));
+			}
 			return newID;
 		} else if (input.equals("NEWFAMILY "+id)) {
 			String newID = args[1];
