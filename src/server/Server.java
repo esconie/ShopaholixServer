@@ -110,7 +110,7 @@ public class Server {
 		 * 
 		 * Input: "GET_PUBLIC upc" -> might return null
 		 * 
-		 * Input: "SEND_LOG log" -> return nothing.
+		 * Input: "SEND_LOG " -> return nothing.
 		 * 
 		 * Update String Representation:
 		 * 
@@ -124,7 +124,7 @@ public class Server {
 		String memberUpdate = "(MEMBER_UPDATE " + id + " " + id + " (true|false)) [0-9]+";
 		String ratingUpdate = "(RATING_UPDATE " + upc + " " + id + " (GOOD|BAD|NEUTRAL) [0-9]+)";
 		String getPublic = "GET_PUBLIC " + upc;
-		String sendLog = "SEND_LOG.+";
+		String sendLog = "SEND_LOG " + id + " .+";
 
 		String[] args = input.split(" ");
 		
@@ -189,13 +189,20 @@ public class Server {
 				return publicRatings.get(code).toString() + "\n";
 			return "UNRATED\n";
 		} else if (input.matches(sendLog)){
-			String log = input.substring(8);
 			String filename = "";
-			for(int i = 0; i < log.length(); i++){
-				if(log.charAt(i) == '\n')
+			int count = 0;
+			int logStart = 0;
+			for(int i = 0; i < input.length(); i++){
+				if(input.charAt(i) == ' ')
+					count++;
+				logStart++;
+				if(count == 1)
+					filename += input.charAt(i);
+				else if(count == 2)
 					break;
-				filename += log.charAt(i);
 			}
+			
+			String log = input.substring(logStart);
 			File logFile = new File(filename);
 			if (!logFile.exists()) {
 				try {
