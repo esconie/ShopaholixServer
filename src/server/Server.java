@@ -54,7 +54,7 @@ public class Server {
 	 *             individual clients do *not* terminate serve()).
 	 */
 	public void serve() throws IOException {
-		System.out.println("Listening for connectionsssss..");
+		System.out.println("Listening for connectionssssss..");
 		while (true) {
 			// block until a client connects
 			Socket socket = serverSocket.accept();
