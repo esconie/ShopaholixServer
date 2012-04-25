@@ -141,7 +141,7 @@ public class Server {
 		}
 		else if (input.matches(getUpdate)) {			
 			String output = "";
-			int ID = Integer.parseInt(args[1]);
+			String ID = args[1];
 			long timeStamp = Long.parseLong(args[2]);
 			if (userID.containsKey(ID)) {
 				User user = userID.get(ID);
@@ -156,9 +156,9 @@ public class Server {
 		}
 
 		else if (input.matches(memberUpdate)) {
-			User user = userID.get(Integer.parseInt(args[2]));
+			User user = userID.get(args[2]);
 			long timeStamp = Long.parseLong(args[4]);
-			Family family = familyID.get(Integer.parseInt(args[1]));
+			Family family = familyID.get(args[1]);
 			boolean add = Boolean.parseBoolean(args[3]);
 
 			user.receiveUpdate(new MemberUpdate(family, user, add, new Date(
@@ -166,7 +166,7 @@ public class Server {
 		}
 
 		else if (input.matches(ratingUpdate)) {
-			User user = userID.get(Integer.parseInt(args[2]));
+			User user = userID.get(args[2]);
 			Rating rating = Rating.valueOf(args[3]);
 			String code = args[1];
 			long timeStamp = Long.parseLong(args[4]);
