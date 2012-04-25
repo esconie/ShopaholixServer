@@ -123,7 +123,7 @@ public class Server {
 		String memberUpdate = "(MEMBER_UPDATE " + id + " " + id + " (true|false)) [0-9]+";
 		String ratingUpdate = "(RATING_UPDATE " + upc + " " + id + " (GOOD|BAD|NEUTRAL) [0-9]+)";
 		String getPublic = "GET_PUBLIC " + upc;
-		String sendLog = "SEND_LOG";
+		String sendLog = "SEND_LOG.+";
 
 		String[] args = input.split(" ");
 		
@@ -185,7 +185,7 @@ public class Server {
 			if (publicRatings.containsKey(code))
 				return publicRatings.get(code).toString() + "\n";
 			return "UNRATED\n";
-		} else if (input.substring(0,8).equals(sendLog)){
+		} else if (input.matches(sendLog)){
 			String log = input.substring(8);
 			String filename = "";
 			for(int i = 0; i < log.length(); i++){
