@@ -56,14 +56,54 @@ public class Server {
 	public void serve() throws IOException {
 		System.out.println("Listening for connectionssssss..");
 		while (true) {
-			// block until a client connects
-			Socket socket = serverSocket.accept();
-
-			// handle the client
-			(new ClientThread(socket)).start();
+			try {
+				// block until a client connects
+				Socket socket = serverSocket.accept();
+	
+				// handle the client
+				(new ClientThread(socket)).start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
+
+	public static void main(String[] args) {
+		try {
+			Server server = new Server(PORT);
+			server.serve();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Thread class that takes a Socket and handles the client connection for
+	 * that socket
+	 */
+	public class ClientThread extends Thread {
+		private final Socket socket;
+
+		public ClientThread(Socket socket) {
+			this.socket = socket;
+		}
+
+		public void run() {
+			try {
+				handleConnection(socket);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Handle a single client connection. Returns when client disconnects.
 	 * 
@@ -226,38 +266,5 @@ public class Server {
 		return "\n";
 	}
 
-	public static void main(String[] args) {
-		try {
-			Server server = new Server(PORT);
-			server.serve();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Thread class that takes a Socket and handles the client connection for
-	 * that socket
-	 */
-	public class ClientThread extends Thread {
-		private final Socket socket;
-
-		public ClientThread(Socket socket) {
-			this.socket = socket;
-		}
-
-		public void run() {
-			try {
-				handleConnection(socket);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					socket.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	
 }
