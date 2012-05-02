@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class User {
-	public HashSet<Family> families = new HashSet<Family>();
+	public HashSet<User> family = new HashSet<User>();
 	public List<Update> updates = new LinkedList<Update>();
 
 	public List<RatingUpdate> myUpdates = new LinkedList<RatingUpdate>();
@@ -43,13 +43,10 @@ public class User {
 	}
 	
 	public void receiveUpdate(RatingUpdate u) {
-		addUpdate(u);
-		for (Family f: families) {
-			for (User user: f.users) {
+			for (User user: family) {
 				if (!user.equals(this)) {
 					user.addUpdate(u);
 				}
-			}
 		}
 		myUpdates.add(u);
 	}
@@ -59,27 +56,15 @@ public class User {
 	 * @param u
 	 */
 	public void receiveUpdate(MemberUpdate u) {
+		family.add(u.adder);
+		u.adder.family.add(this);
 		addUpdate(u);
-		if (u.add) {
-			families.add(u.family);
-			u.family.users.add(this);
-		} else {
-			families.remove(u.family);
-			u.family.users.remove(this);
+		for (Update up:u.adder.myUpdates) {
+			addUpdate(u);
 		}
-		for (User user: u.family.users) {
-			if (!user.equals(this)) {
-				user.addUpdate(u);
-			}
+		for (Update up:myUpdates) {
+			u.adder.addUpdate(up);
 		}
-		for (User user: u.family.users) {
-			if (!user.equals(this)) {
-				for (RatingUpdate up:user.myUpdates) {
-					this.addUpdate(up.changeTime(u.time));
-				}
-			}
-		}
-		
 	}
 	
 	@Override

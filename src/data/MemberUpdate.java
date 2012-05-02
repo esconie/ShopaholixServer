@@ -3,12 +3,12 @@ package data;
 import java.util.Date;
 
 public class MemberUpdate extends Update {
-	Family family;
+	User adder;
 	User user;
 	boolean add;
 	
-	public MemberUpdate(Family f, User u, boolean a, Date t) {
-		family = f;
+	public MemberUpdate(User ad, User u, boolean a, Date t) {
+		adder = ad;
 		user = u;
 		add = a;
 		time = t;
@@ -16,6 +16,6 @@ public class MemberUpdate extends Update {
 	
 	@Override
 	public String toString() {
-		return "MEMBER_UPDATE "+family.toString()+" "+user.toString()+" "+add+" "+time.getTime();
+		return "MEMBER_UPDATE "+adder.toString()+" "+user.toString()+" "+add+" "+time.getTime();
 	}
 }

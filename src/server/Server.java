@@ -54,7 +54,7 @@ public class Server {
 	 *             individual clients do *not* terminate serve()).
 	 */
 	public void serve() throws IOException {
-		System.out.println("Listening for connectionssssss..");
+		System.out.println("Listening for connections now..");
 		while (true) {
 			try {
 				// block until a client connects
@@ -154,7 +154,7 @@ public class Server {
 		 * 
 		 * Update String Representation:
 		 * 
-		 * MemberUpdate: "MEMBER_UPDATE familyID userID boolean timestamp" -> true means add to family, false means remove 
+		 * MemberUpdate: "MEMBER_UPDATE adderID userID boolean timestamp" -> true means add to family, false means remove 
 		 * RatingUpdate: "RATING_UPDATE upc userID rating timestamp" where rating is an enum instance
 		 */
 
@@ -204,17 +204,16 @@ public class Server {
 				user = new User(args[2]);
 				userID.put(args[2],user);
 			}
+			boolean add = Boolean.parseBoolean(args[3]);
 			
 			long timeStamp = Long.parseLong(args[4]);
-			Family family = familyID.get(args[1]);
-			if (family == null) {
-				family = new Family(args[1]);
-				family.users.add(user);
-				family.users.add(userID.get(familyID));
+			User adder = userID.get(args[1]);
+			if (adder == null) {
+				adder = new User(args[1]);
+				userID.put(args[1], adder);
 			}
-			boolean add = Boolean.parseBoolean(args[3]);
-
-			user.receiveUpdate(new MemberUpdate(family, user, add, new Date(
+			
+			user.receiveUpdate(new MemberUpdate(adder, user, add, new Date(
 					timeStamp)));
 		}
 
