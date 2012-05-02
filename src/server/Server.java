@@ -173,6 +173,9 @@ public class Server {
 			if (!userID.containsKey(newID)) {
 				userID.put(newID, new User(newID));
 			}
+			if (!userID.containsKey(newID)) {
+				userID.put(newID, new User(newID));
+			}
 			return newID;
 		} else if (input.equals("NEWFAMILY "+id)) {
 			String newID = args[1];
@@ -197,8 +200,18 @@ public class Server {
 
 		else if (input.matches(memberUpdate)) {
 			User user = userID.get(args[2]);
+			if (user == null) {
+				user = new User(args[2]);
+				userID.put(args[2],user);
+			}
+			
 			long timeStamp = Long.parseLong(args[4]);
 			Family family = familyID.get(args[1]);
+			if (family == null) {
+				family = new Family(args[1]);
+				family.users.add(user);
+				family.users.add(userID.get(familyID));
+			}
 			boolean add = Boolean.parseBoolean(args[3]);
 
 			user.receiveUpdate(new MemberUpdate(family, user, add, new Date(
