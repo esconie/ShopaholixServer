@@ -56,14 +56,24 @@ public class User {
 	 * @param u
 	 */
 	public void receiveUpdate(MemberUpdate u) {
-		family.add(u.adder);
-		u.adder.family.add(this);
 		addUpdate(u);
-		for (Update up:u.adder.myUpdates) {
-			addUpdate(u);
-		}
-		for (Update up:myUpdates) {
-			u.adder.addUpdate(up);
+
+		if (u.add) {
+			family.add(u.adder);
+			u.adder.family.add(this);
+			for (Update up:u.adder.myUpdates) {
+				addUpdate(up);
+			}
+			for (Update up:myUpdates) {
+				u.adder.addUpdate(up);
+			}
+		} else {
+			try {
+				family.remove(u.adder);
+				u.adder.family.remove(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
