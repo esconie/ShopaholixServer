@@ -62,9 +62,11 @@ public class User {
 			family.add(u.adder);
 			u.adder.family.add(this);
 			for (Update up:u.adder.myUpdates) {
+				up.time = u.time;
 				addUpdate(up);
 			}
 			for (Update up:myUpdates) {
+				up.time = u.time;
 				u.adder.addUpdate(up);
 			}
 		} else {
